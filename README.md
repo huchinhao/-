@@ -38,3 +38,19 @@ function doPost(e) {
     ).setMimeType(ContentService.MimeType.JSON);
   }
 }
+function doPost(e) {
+  try {
+    Logger.log(e.postData.contents); // 記錄接收到的資料
+    const data = JSON.parse(e.postData.contents); // 解析 JSON 資料
+
+    // 其他處理邏輯...
+    return ContentService.createTextOutput(
+      JSON.stringify({ success: true, message: '提交成功！' })
+    ).setMimeType(ContentService.MimeType.JSON);
+  } catch (error) {
+    Logger.log('Error: ' + error.message); // 記錄錯誤訊息
+    return ContentService.createTextOutput(
+      JSON.stringify({ success: false, message: '提交失敗，請檢查資料格式！', error: error.message })
+    ).setMimeType(ContentService.MimeType.JSON);
+  }
+}
